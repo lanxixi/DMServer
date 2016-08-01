@@ -24,7 +24,7 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 
 	switch (client_msg.head.msg_cmd)
 	{
-	case CLIENT_LOGIN_MSG:
+	case LOGIN_MSG:
 		{
 			ProxySessionMgr::instance()->add_session(fd, new ProxySession(this));//fd×÷Îªsessionid
 				
@@ -36,19 +36,19 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 
 			break;
 		}
-	case CLIENT_HEARTBEAT_MSG:
+	case HEARTBEAT_MSG:
 		{
 			break;
 		}
-	case CLIENT_SERVICE_MSG:
+	case SERVICE_MSG:
 		{
 			break;
 		}
-	case CLIENT_NOTIFY_MSG:
+	case NOTIFY_MSG:
 		{
 			break;
 		}
-	case CLIENT_MAINT_MSG:
+	case MAINT_MSG:
 		{
 			break;
 		}

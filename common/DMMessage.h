@@ -23,11 +23,25 @@
                     bit 7:  reserve
 ---------------------------------------------------------------------------------*/
 
-enum msg_type
+enum msg_type   //公共维护消息
 {
     ADD_PROXY_MSG = 1000,
     RMV_PROXY_MSG = 1001,
     STOP_SERVER   = 1002    
+};
+
+enum msg_flge    //公共flag标记
+{
+	REQUEST_MSG   = 0x01,
+	RESPONS_MSG   = 0x02,
+
+	LOGIN_MSG     = 0x04,
+	HEARTBEAT_MSG = 0x08,
+	SERVICE_MSG	 = 0x10,
+	NOTIFY_MSG    = 0x20,
+	MAINT_MSG     = 0x40,
+
+	MSG_MASK      = 0xFF,
 };
 
 class DMMessageHead
