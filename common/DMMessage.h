@@ -39,6 +39,23 @@ public:
     char wait_time;
     char flag;
     short reserved;
+    
+    DMMessageHead& operator=(DMMessageHead other)
+    {
+        this->msg_id = other.msg_id;
+        this->user_id = other.user_id;
+        this->msg_cmd = other.msg_cmd;
+        this->length = other.length;
+        this->from = other.from;
+        this->to = other.to;
+        this->cluster_id = other.cluster_id;
+        this->node_id = other.node_id;
+        this->wait_time = other.wait_time;
+        this->flag = other.flag;   
+        this->reserved = other.reserved;
+        
+        return *this;
+    }
 };
 
 class DMMessage

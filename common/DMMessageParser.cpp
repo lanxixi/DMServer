@@ -79,9 +79,9 @@ void DMMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e
 	const char *head_info = src;
 	short bit_info = 0x0;
 
-	for (int i = 0; i < HEAD_CHAR_LEN; ++i)  //16 * 8 = 128
+	for (int i = 0; i < HEAD_CHAR_LEN; ++i)
 	{     
-		bit_info = bit_info | (*(head_info++) & 0xFF);    //只取8位防止高位为1编译器转32位做取反操作
+		bit_info = bit_info | (*(head_info++) & 0xFF);
         
         if (bit_s == (CHAR_BIT_LEN * i))
         { 
