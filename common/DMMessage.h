@@ -23,6 +23,13 @@
                     bit 7:  reserve
 ---------------------------------------------------------------------------------*/
 
+enum msg_type
+{
+    ADD_PROXY_MSG = 1000,
+    RMV_PROXY_MSG = 1001,
+    STOP_SERVER   = 1002    
+};
+
 class DMMessageHead
 {
 public:

@@ -6,13 +6,6 @@
 #include "ace/Svc_Handler.h"
 #include "DMMessage.h"
 
-enum msg_type
-{
-	ADD_PROXY_MSG = 1000,
-	RMV_PROXY_MSG = 1001,
-	STOP_SERVER	  = 1002	
-};
-
 class GateServiceHandle : public DMServiceHandle, public ACE_Svc_Handler<ACE_SOCK_Stream, ACE_MT_SYNCH>
 {
 public:
