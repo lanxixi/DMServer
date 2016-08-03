@@ -54,17 +54,22 @@ void DMMessageParser::DMGetBitData(char *src,T *dsc,int bit_s,int bit_e)
 	char *head_info = src;  //头地址
 	short bit_info = 0x0;   //结果数据
 
-	for (int i = 0;i < HEAD_CHAR_LEN; ++i)  //16 * 8 = 128
-	{
-		short short_info = 0x0;     //16字节数据
-		short_info = short_info | (*(head_info++) & 0xFF);    //只取8位防止高位为1编译器转32位做取反操作
-		short_info = short_info << (CHAR_BIT_LEN * i);
-		bit_info = bit_info | short_info;
+	for (int i = 0; i < HEAD_CHAR_LEN; ++i)  //16 * 8 = 128
+	{     
+		bit_info = bit_info | (*(head_info++) & 0xFF);    //只取8位防止高位为1编译器转32位做取反操作
+        
+        if (bit_s == (CHAR_BIT_LEN * i))
+        { 
+    		break;
+        }   
 	}
 
-	bit_info = bit_info << (HEAD_BIT_LEN - bit_e);
-	bit_info = bit_info >> (HEAD_BIT_LEN - bit_e + bit_s);
-
+    if (CHAR_BIT_LEN != (bit_e - bit_s))    //取16位
+    {
+        bit_info = bit_info << CHAR_BIT_LEN;    //高8位
+        bit_info = bit_info | (*head_info & 0xFF);
+    }
+        
 	*dsc =  *dsc | bit_info;
 }
 
@@ -74,17 +79,22 @@ void DMMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e
 	const char *head_info = src;
 	short bit_info = 0x0;
 
-	for (int i = 0;i < HEAD_CHAR_LEN; ++i)
-	{
-		short short_info = 0x0;
-		short_info = short_info | (*(head_info++) & 0xFF);
-		short_info = short_info << (CHAR_BIT_LEN * i);
-		bit_info = bit_info | short_info;
+	for (int i = 0; i < HEAD_CHAR_LEN; ++i)  //16 * 8 = 128
+	{     
+		bit_info = bit_info | (*(head_info++) & 0xFF);    //只取8位防止高位为1编译器转32位做取反操作
+        
+        if (bit_s == (CHAR_BIT_LEN * i))
+        { 
+    		break;
+        }   
 	}
 
-	bit_info = bit_info << (HEAD_BIT_LEN - bit_e);
-	bit_info = bit_info >> (HEAD_BIT_LEN - bit_e + bit_s);
-
+    if (CHAR_BIT_LEN != (bit_e - bit_s))
+    {
+        bit_info = bit_info << CHAR_BIT_LEN;
+        bit_info = bit_info | (*head_info & 0xFF);
+    }
+        
 	*dsc =  *dsc | bit_info;
 }
 
