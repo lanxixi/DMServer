@@ -1,0 +1,25 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*- 
+
+import os
+
+#print "cd ../message/proto\n"
+#print "start build proto file...\n"
+os.chdir("../message/proto")
+os.system("scons -Q")
+
+#print "cd ../message\n"
+#print "start build proto lib...\n"
+os.chdir("../")
+os.system("scons -Q")
+
+#print "cd ../common\n"
+#print "start build common lib...\n"
+os.chdir("../common")
+os.system("scons -Q")
+
+#print "cd ../server/getservice\n"
+#print "start build GateService...\n"
+os.chdir("../server/gateservice")
+os.system("scons -Q")
+
