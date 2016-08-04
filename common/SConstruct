@@ -1,0 +1,18 @@
+env = Environment()
+
+TARGETNAME = 'Broker'
+
+LIB = Split('ACE amqpcpp pthread')
+
+FILELIST = Glob('*.cpp') 
+
+HEADFILEPATH = Split('../3rd ../3rd/amqpcpp ../common')
+
+LIB_DIR = Split('../3rd')
+
+FLAGS = Split('-std=c++11 -Wall')
+
+TARGETFILE = StaticLibrary(target = TARGETNAME,source = FILELIST,LIBS = LIB,CPPPATH = HEADFILEPATH,LIBPATH = LIB_DIR,CCFLAGS = FLAGS)
+
+INSTALL = env.Install('../lib', TARGETFILE)
+env.Alias('release',INSTALL)
