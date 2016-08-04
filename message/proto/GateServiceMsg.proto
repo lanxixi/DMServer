@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message PBClientMsg 
+{ 
+    string accountid = 1;  // ID 
+    string proxy = 2;   //proxy
+}
+
+message PBServerMsg 
+{ 
+    string key = 1;  // key 
+    string proxy = 2;   //proxy
+}

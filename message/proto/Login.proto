@@ -1,0 +1,54 @@
+syntax = "proto3";
+import "Basic.proto";
+import "User.proto";
+
+message LoginRequst{
+	CommonRequest head=1;
+	string accountid = 2;
+	string username = 3;
+	string userpwd = 4;
+	UserSex sex = 5;
+	string headurl = 6;
+	string email = 7;
+	bytes userType= 8; //usertype: 1: facebook 2:vistor
+	uint32 channel = 9; //
+	uint32 languige = 10;
+	string version = 11;
+
+}
+
+message LoginResponse{
+	ResponseHeader head= 1;
+	bool isRegister = 2;
+	MyBaseInfo baseinfo = 3;
+}
+
+
+
+
+message RoomCfgData{
+	uint64 m_blind = 1;
+	uint64 m_minBlind = 2;
+	uint64 m_maxBlind = 3;
+	uint64 m_playnowMinBlind = 4;
+	uint64 m_playnowMaxBlind = 5;
+	uint32 m_roomLevel = 6;
+}
+
+message GameConfigResponse{
+	ResponseHeader head= 1;
+	uint64 primary_chips = 2;
+	uint64 middle_chips = 3;
+	uint64 hight_chips = 4;
+	map<string,RoomCfgData> roomlimit = 5;
+	map<uint32,string> room_title = 6;
+	uint32 face_cost_ratio = 7;
+	uint32 loginTimes = 8;
+	bool openPing = 9;
+	bool openBoxAward = 10;
+	bytes rulesVer = 11;
+	uint32 shareSc = 12;
+	uint32 maxFriendnum = 13;
+}
+
+

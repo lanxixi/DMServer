@@ -1,0 +1,97 @@
+syntax = "proto3";
+import "Basic.proto";
+
+message LoginAward{
+    bytes     step = 1;                                             // >=MAX_LOGINAWARD_TIMES_UPPER_LIMIT表示不可领取
+    uint64 award_next_money = 2;  // 本次可领取筹码数
+    uint32		award_counttime = 3;                                //下次可领奖剩余时间，单位秒，如果是0，表示可领取
+
+}
+
+
+
+message signAwardImageInfo
+{
+	enum signAwardImageType
+	{
+		unkwown = 0;
+		InteractiveProps = 1;	//互动道具
+		ChipsBox = 2;				//筹码盒
+		Chips = 3;					//筹码
+		Coins = 4;					//金币
+		Gifts = 5;					//礼物
+	};
+	signAwardImageType type = 1;						//奖励类型
+	uint32 imageId = 2;											//img id
+	uint64 signAwardImageNum = 3;			//奖励数量
+	uint32 bSignAward = 4;											//奖励是否可以分享
+	string signAwardImageUrl = 5;					//奖励图片url（当没有奖励类型的时候）
+	uint32 signAwardImageBgColor = 6;					//奖励图片(url存在情况下)背景（黄色或紫色背景）1 黄色 2紫色
+}
+
+
+message seriesDaysAwardImageInfo
+{
+	uint32 days = 1;			// 连续多少天, 3/5/7
+	signAwardImageInfo signAwardImageInfo = 2;
+};
+
+message SignAward{
+	uint32 week = 1;										//今天是周几（0-6）
+	repeated uint32 isSignedFlags = 2;	//每天签到状态
+	uint32 isaward = 3;									// 领奖接口：0-没有领奖（app走领奖动画），1-已经领取奖励；(注意： 登陆接口及其它地方：1-有奖，0-没奖)
+	repeated signAwardImageInfo			commonTotalAwards = 4;	//该周每天奖励配置 （包含多个数组）
+	repeated seriesDaysAwardImageInfo	extAwards = 5;
+}
+
+
+message RegisterAwardItem
+{
+	uint32 prop_id = 1;
+	uint32 prop_count = 2;
+};
+
+message RegisterOneDay
+{
+	bool is_award_getted = 1;
+	repeated RegisterAwardItem	one_day_award = 2;
+};
+
+message RegisterAward
+{
+    uint32 is_award = 1;
+    uint32 todayIndex = 2;                                             //index，第几天，从0开始
+	repeated RegisterOneDay total_days = 3;        //所有天数的奖励
+}
+
+
+message CountBoxAward{
+	message AwardCfg{
+				uint32 time = 1;
+		uint64 amount = 2;
+	}
+
+	uint32 duration = 1;
+	uint32 step = 2;
+	repeated AwardCfg AwardConfigs = 3;
+}
+
+message FreechipStatus{
+	uint32 daily_sign = 1;
+	uint32 login_award = 2;
+	uint32 daily_task = 3;
+	uint32 activity_center = 4;
+	uint32 counting_box = 5;
+	uint32 register_award = 6;
+	uint32 activity_gamecount = 7;
+}
+
+message AllAwardsResponse{
+	ResponseHeader head=1;
+	LoginAward loginAward = 2;
+	RegisterAward registerAward = 3;
+	SignAward signAward = 4;
+	CountBoxAward countBoxAward = 5;
+	FreechipStatus freechipStatus = 6;
+}
+

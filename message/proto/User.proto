@@ -1,0 +1,131 @@
+syntax = "proto3";
+import "Basic.proto";
+
+message Poker{
+	bytes color = 1;
+	bytes point = 2;
+}
+
+
+
+enum User_role{
+	unkwown = 0;
+	player = 1;
+	admin = 2;
+}
+
+message UserExtInfo{
+	string email = 5;                            //
+	uint64 user_out_roochips = 9;               // 在房间时场外筹码数，不在房间时跟总筹码数相同
+    uint64 user_exp = 12;                           // 经验
+    uint64 user_exp_upgrade = 13;           // 升级需要经验
+
+
+    bytes user_vip_level = 14;	                    //vip等级
+    uint32 user_charlevel = 15;               // charm level
+    uint64 user_charm = 16;	                    //魅力
+    uint64 user_charupgrade = 17;	    //魅力升级需要值
+
+    uint64 user_max_chips = 22;                 // 曾有过最大筹码数
+    uint64 user_max_winpot = 23;                // 赢取最大奖池
+	uint64 user_escape_count = 24;				// 逃跑数
+    repeated Poker user_best_cards = 25;      // 最佳手牌
+    uint32 user_mtt_wins = 26;                      //mtt胜场数
+    uint32 user_sng_wins = 27;                      //sng胜场数
+
+    uint64 user_bank_chips = 28;    //银行存款
+    uint64 user_last_login_time = 29;    //最后登录时间
+    bool  user_have_new_msg = 30;    // 是否有新消息
+
+    uint32 user_total_bankrupt_times = 31;        //总共破产次数
+}
+
+enum ONLINE_STATUS
+{
+	USER_OFF_LINE = 0;
+	USER_ON_LINE = 1;
+	USER_IN_GAME = 2;
+	USER_IN_WATCH = 3;
+};
+
+message Online_Info{
+
+	ONLINE_STATUS online_status = 1;                  //在线状态 ，0：不在线；1：在大厅；2：房间游戏中；3：房间观看中
+	string game_host_svrid = 2;		//重连host
+	int32 cur_rooid = 3;			//重连房间id
+
+}
+
+message UserBaseInfo{
+	uint32 user_id = 1;                             //UID
+	bytes user_type = 2;                            // 0 无效 1游客 2 注册用户 3 facebook
+    string user_name = 4;                            // 昵称
+    UserSex user_sex = 7;	                                //性别
+    int32 user_img_id = 6;	                        //系统头像id
+	string user_head_url = 35;
+
+    uint64 user_total_chips = 8;               // 总筹码数
+
+    uint64 user_total_coins = 10;	            // 总金币数
+    bytes user_level = 11;                               // 玩家等级
+
+
+    uint32 user_total_win_rounds = 18;      // 总的胜局数
+    uint32 user_total_lost_rounds = 19;     // 总的败局数
+
+	uint32				giftimg_onuse = 20;	//正在使用的礼物
+	string		giftImg_url = 21;	//正在使用的礼物url
+
+	bool chat_enable = 36;			//玩家状态，1：正常  6: 禁言
+
+
+	User_role user_is_admin = 38;
+}
+
+
+message MyBaseInfo{
+	UserBaseInfo baseInfo = 1;
+	Online_Info onlineInfo= 2;
+
+}
+
+message MyAllInfo{
+	UserBaseInfo baseInfo = 1;
+	Online_Info onlineInfo= 2;
+	UserExtInfo extInfo = 3;
+}
+
+message FriendBaseInfo{
+	UserBaseInfo baseInfo = 1;
+	Online_Info onlineInfo= 2;
+}
+
+//状态查询请求 CommonRequest
+//状态查询响应
+message StatusResponse{
+	ResponseHeader head= 1;
+	bytes status = 2; //1 被封 2 正常 3 房间打牌
+	string ext1 = 3; //扩展字段.与status结合使用
+
+}
+
+message MyBaseInfoResponse{
+	ResponseHeader head= 1;
+	MyBaseInfo info = 2;
+}
+
+message MyAllInfoResponse{
+	ResponseHeader head= 1;
+	MyAllInfo info = 2;
+}
+
+message PlayerInfoRequest{
+	CommonRequest basic = 1;
+	uint32 playeruid = 2;
+}
+
+message PlayerInfoResponse{
+	ResponseHeader head= 1;
+	UserBaseInfo info = 2;
+}
+

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+
+message HeartBeat{
+	uint32 tag = 1;
+}
+
+enum UserSex{
+	female = 0;
+	male = 1;
+	unknown = 2;
+}
+
+message CommonRequest {
+	int32 id=1; //消息id
+	int32 type= 2; //message type
+	int32 uid=3; //用户uid
+}
+
+message ResponseHeader{
+	int32 id=1; //消息id
+	int32 type= 2; //message type
+	bytes from = 3;  //服务器id
+}

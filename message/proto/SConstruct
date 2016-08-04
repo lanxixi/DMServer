@@ -1,0 +1,11 @@
+#--------------protobuf-------------------
+#proto file path
+SRC_DIR = ARGUMENTS.get("SRC_DIR","./")
+DST_DIR = ARGUMENTS.get("DST_DIR","../")
+
+#construct proto
+PROTOC = Builder(action="protoc -I=" + SRC_DIR + " --cpp_out=" + DST_DIR + " " + "$SOURCES",src_surffix=".proto")
+ENV_PB = Environment(BUILDERS={'Protoc':PROTOC})
+PROTOFILE = Glob('*.proto')
+
+ENV_PB.Protoc(PROTOFILE)
