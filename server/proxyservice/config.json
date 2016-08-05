@@ -1,0 +1,21 @@
+{
+    "host_name": "GateServer",
+    "host_ip": "127.0.0.1",
+    "host_port": 1234,
+    
+    "reactor_info":
+        {
+            "reactor_thread": 1,
+            "reactor_count": 2,
+            "reactor_handle_max": 1000
+        },
+        
+    "broker_info": 
+        {
+            "broker_ip": "127.0.0.1",
+            "broker_port": 5672,
+            "broker_user": "guest",
+            "broker_passwd": "guest",
+            "broker_svrid": 22
+        }
+}

@@ -24,9 +24,6 @@
     <ClInclude Include="ProxyAcceptor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ReactorPool.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryPool.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -39,12 +36,18 @@
     <ClInclude Include="ProxySessionMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ReactorPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProxyServiceHandle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ProxyService.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ReactorPool.cpp">

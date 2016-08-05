@@ -125,6 +125,7 @@
     <ClInclude Include="ReactorPool.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ProxyService.cpp" />
     <ClCompile Include="ProxyServiceHandle.cpp" />
     <ClCompile Include="ReactorPool.cpp" />

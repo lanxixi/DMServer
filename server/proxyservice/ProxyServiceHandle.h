@@ -2,8 +2,11 @@
 #include "DSServiceHandle.h"
 #include "ace/Task_T.h"
 #include "ace/Synch_Traits.h"
+#include "ace/SOCK_Stream.h"
+#include "ace/Svc_Handler.h"
+#include "DSMessage.h"
 
-class ProxyServiceHandle : public DSServiceHandle, public ACE_Svc_Handler<ACE_SOCK_Stream, ACE_MT_SYNCH>
+class ProxyServiceHandle : public DSServiceHandle, public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH>
 {
 public:
 
@@ -13,7 +16,10 @@ public:
 	//在连接上接收accountid，返回一个proxyserver的host
 	virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 
+	bool recv_client_data(DSClientMessage &msg);
+
+	bool trans_to_svr_msg(DSClientMessage &client_msg, DSServerMessage &server_msg);
+
 	//重写实现。需要绑定到不同的reactor上面
 	virtual int open(void *acceptor_or_connector = 0) override;
-
 };
