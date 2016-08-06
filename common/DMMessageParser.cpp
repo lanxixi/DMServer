@@ -51,15 +51,15 @@ int DMMessageParser::parse(DMMessage& out, const AMQP::Message &in)
 template <typename T>
 void DMMessageParser::DMGetBitData(char *src,T *dsc,int bit_s,int bit_e)
 {
-	char *head_info = src;
-	short bit_info = 0x0;
+	char *head_info = src;  //头地址
+	short bit_info = 0x0;   //结果数据
 
-	for (int i = 0;i < HEAD_CHAR_LEN; ++i)
+	for (int i = 0;i < HEAD_CHAR_LEN; ++i)  //16 * 8 = 128
 	{
-		short char_info = 0x0;
-		char_info = char_info | (*(head_info++) & 0xFF);
-		char_info = char_info << (CHAR_BIT_LEN * i);
-		bit_info = bit_info | char_info;
+		short short_info = 0x0;     //16字节数据
+		short_info = short_info | (*(head_info++) & 0xFF);    //只取8位防止高位为1编译器转32位做取反操作
+		short_info = short_info << (CHAR_BIT_LEN * i);
+		bit_info = bit_info | short_info;
 	}
 
 	bit_info = bit_info << (HEAD_BIT_LEN - bit_e);
@@ -76,10 +76,10 @@ void DMMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e
 
 	for (int i = 0;i < HEAD_CHAR_LEN; ++i)
 	{
-		short char_info = 0x0;
-		char_info = char_info | (*(head_info++) & 0xFF);
-		char_info = char_info << (CHAR_BIT_LEN * i);
-		bit_info = bit_info | char_info;
+		short short_info = 0x0;
+		short_info = short_info | (*(head_info++) & 0xFF);
+		short_info = short_info << (CHAR_BIT_LEN * i);
+		bit_info = bit_info | short_info;
 	}
 
 	bit_info = bit_info << (HEAD_BIT_LEN - bit_e);
