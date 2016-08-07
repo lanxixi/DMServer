@@ -2,13 +2,13 @@
 #include "ace/INET_Addr.h"
 #include "ace/Log_Msg.h"
 #include <fstream>
-#include "DSBrokerProxy.h"
-#include "DSServiceHandle.h"
+#include "DMBrokerProxy.h"
+#include "DMServiceHandle.h"
 #include "json/json.h"
 #include "ace/Dev_Poll_Reactor.h"
 #include "ReactorPool.h"
 
-DSService* GetService()
+DMService* GetService()
 {
 	return ProxyService::instance();
 }
@@ -63,7 +63,7 @@ int ProxyService::init()
 	ACE_INET_Addr addr(_svr_info.host_port, _svr_info.host_ip.c_str());
 	_acceptor.open(addr,ACE_Reactor::instance());
 
-	DSBrokerProxy::getInstance()->init(_brk_info.broker_ip.c_str(),_brk_info.broker_port, _brk_info.broker_user,_brk_info.broker_passwd , _brk_info.broker_svrid);
+	DMBrokerProxy::getInstance()->init(_brk_info.broker_ip.c_str(),_brk_info.broker_port, _brk_info.broker_user,_brk_info.broker_passwd , _brk_info.broker_svrid);
 
 	return 1;
 }

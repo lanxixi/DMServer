@@ -1,6 +1,6 @@
 #pragma once
-#include "DSService.h"
-#include "DSBrokerProxy.h"
+#include "DMService.h"
+#include "DMBrokerProxy.h"
 #include "ProxyAcceptor.h"
 
 typedef struct server_config_info
@@ -26,7 +26,7 @@ typedef struct broker_config_info
 	int broker_svrid;
 }Broker_info;
 
-class ProxyService : public DSService
+class ProxyService : public DMService
 {
 public:
 

@@ -1,7 +1,7 @@
 #include "ProxyServiceHandle.h"
-#include "DSServerMessageParser.h"
-#include "DSClientMessageParser.h"
-#include "DSBrokerProxy.h"
+#include "DMServerMessageParser.h"
+#include "DMClientMessageParser.h"
+#include "DMBrokerProxy.h"
 #include "ProxyRouter.h"
 #include "ReactorPool.h"
 #include "ProxySessionMgr.h"
@@ -16,7 +16,7 @@ void ProxyServiceHandle::handle(const AMQP::Message &message)
 int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 {
 	ACE_DEBUG((LM_INFO,"app data, route to server!\n"));
-	DSClientMessage client_msg;
+	DMClientMessage client_msg;
 
 	if (!recv_client_data(client_msg))
 	{
@@ -29,7 +29,7 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 		{
 			ProxySessionMgr::instance()->add_session(fd, new ProxySession(this));//fd×÷Îªsessionid
 				
-			DSServerMessage server_msg;
+			DMServerMessage server_msg;
 			if (!trans_to_svr_msg(client_msg, server_msg))
 			{
 				return -1;
@@ -58,7 +58,7 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 	return -1;
 }
 	
-bool ProxyServiceHandle::trans_to_svr_msg(DSClientMessage &client_msg, DSServerMessage &server_msg)
+bool ProxyServiceHandle::trans_to_svr_msg(DMClientMessage &client_msg, DMServerMessage &server_msg)
 {
 	/*server_msg.head.id = client_msg.head.id;
 	server_msg.head.from = PROXY_SERVER_MSG;
@@ -69,13 +69,13 @@ bool ProxyServiceHandle::trans_to_svr_msg(DSClientMessage &client_msg, DSServerM
 	return true;
 }
 
-bool ProxyServiceHandle::recv_client_data(DSClientMessage &msg)
+bool ProxyServiceHandle::recv_client_data(DMClientMessage &msg)
 {
-	char head[DSClientMessageParser::HEAD_CHAR_LEN] = {0};
-	peer().recv(head,DSClientMessageParser::HEAD_CHAR_LEN);
+	char head[DMClientMessageParser::HEAD_CHAR_LEN] = {0};
+	peer().recv(head,DMClientMessageParser::HEAD_CHAR_LEN);
 	
-	DSClientMessageParser parser;
-	DSClientMessageHead head_info;
+	DMClientMessageParser parser;
+	DMClientMessageHead head_info;
 	//parse head
 	head_info = parser.parseHead(head);
 

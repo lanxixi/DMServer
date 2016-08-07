@@ -6,11 +6,11 @@
 ENV_CPP = Environment(CC = 'g++')
 
 #compile info
-TARGETNAME = 'ProxyServer'
-LIB = Split('ACE pthread libBroker jsoncpp protobuf amqpcpp DSMessage')
+TARGETNAME = 'proxyservice'
+LIB = Split('ACE pthread libBroker jsoncpp protobuf amqpcpp DMMessage')
 FILELIST = Glob('*.cpp')
 FILELIST = FILELIST
-HEADFILEPATH = Split('../Thrid ../Common ../LibMessage ../Thrid/amqpcpp')
+HEADFILEPATH = Split('../../3rd ../../common ../../message ../../3rd/amqpcpp')
 LIB_DIR = Split('../Thrid/lib ../Common ../LibMessage')
 FLAGS = Split('-std=c++11 -Wall -g -D _DEBUG')
 
