@@ -66,7 +66,7 @@ public:
 
 private:
 	int _block_size;
-	MemoryBlock* _block;
+	std::vector<MemoryBlock*> _block;
 };
 
 class MemoryBlock
@@ -76,13 +76,14 @@ public:
 
 	char* require(int size);
 
-	void release(char* block);
+	bool release(char* block);
+
+	bool get_block_state();
 
 private:
-	void init_block(int size);
-
+	void make_block(int size);
+	
 private:
 	bool _used;
 	char* _block;
-	MemoryBlock* _next;
 };

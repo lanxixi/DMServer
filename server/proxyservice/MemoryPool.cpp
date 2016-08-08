@@ -84,9 +84,9 @@ void MemoryPool::release(int size,char* block)
 	}
 }
 
-MemoryPage::MemoryPage():_block(nullptr)
+MemoryPage::MemoryPage()
 {
-
+	_block.push_back(new MemoryBlock());
 }
 
 void MemoryPage::set_block_size(int size)
@@ -101,16 +101,33 @@ int MemoryPage::get_block_size()
 
 char* MemoryPage::require()
 {
-	if (nullptr == _block)
+	std::vector<MemoryBlock*>::iterator it = _block.begin();
+	for (; it != _block.end(); ++it)
 	{
-		_block = new MemoryBlock();
+		if (!((*it)->get_block_state()))
+		{
+			return (*it)->require(_block_size);
+		}
 	}
-	return _block->require(_block_size);
+
+	MemoryBlock* p = new MemoryBlock();
+	_block.push_back(p);
+	return p->require(_block_size);
 }
 
 void MemoryPage::release(char* block)
 {
-	_block->release(block);
+	std::vector<MemoryBlock*>::iterator it = _block.begin();
+	for (; it != _block.end(); ++it)
+	{
+		if ((*it)->get_block_state())
+		{
+			if ((*it)->release(block))
+			{
+				break;
+			}
+		}
+	}
 }
 
 MemoryBlock::MemoryBlock():_used(false),_block(nullptr)
@@ -118,9 +135,8 @@ MemoryBlock::MemoryBlock():_used(false),_block(nullptr)
 
 }
 
-void MemoryBlock::init_block(int size)
+void MemoryBlock::make_block(int size)
 {
-	_next = new MemoryBlock();
 	_block = MemoryPool::instance()->alloc_memory(size);
 }
 
@@ -128,26 +144,29 @@ char* MemoryBlock::require(int size)
 {
 	if (nullptr == _block)
 	{
-		init_block(size);
+		make_block(size);
 	}
 
-	if (true == _used)
-	{
-		char* p = _next->require(size);
-		memset(p,0,size);
-		return p;
-	}
-
+	memset(_block,0,size);
 	_used = true;
 
-	return  _block;
+	return _block;
 }
 
-void MemoryBlock::release(char* block)
+bool MemoryBlock::release(char* block)
 {
 	if (_block != block)
 	{
-		_next->release(block);
+		return false;
 	}
+
 	_used = false;
+	
+	return true;
 }
+
+bool MemoryBlock::get_block_state()
+{
+	return _used;
+}
+
