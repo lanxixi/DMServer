@@ -20,8 +20,6 @@
 */
 #include <vector>
 
-#define MEMORY_POLL_SIZE 4096
-
 class MemoryPage;
 class MemoryBlock;
 

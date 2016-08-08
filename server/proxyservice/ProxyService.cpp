@@ -54,6 +54,9 @@ int ProxyService::init()
 		_brk_info.broker_user = broker_info["broker_user"].asString();
 		_brk_info.broker_passwd = broker_info["broker_passwd"].asString();
 		_brk_info.broker_svrid = broker_info["broker_svrid"].asInt();
+
+		int memory_pool_size = Root["memory_pool"].asInt();
+		MemoryPool::instance()->init_memory_poll(memory_pool_size);
 	}
 	
 	cfg_file.close();
