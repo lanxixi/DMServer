@@ -18,55 +18,71 @@
 	|			   |		 |		    |		 |		    |
 	*--------------*		 *----------*		 *----------*
 */
+#include <vector>
+
 #define MEMORY_POLL_SIZE 4096
 
 class MemoryPage;
 class MemoryBlock;
 
-typedef struct Pool_Info
-{
-	MemoryPage* _page;
-	int _page_num;
-	int _page_size;
-}poll_info;
-
-typedef struct Page_Info
-{
-	struct Page_Info* _next_page;
-	MemoryBlock* _block;
-	int _block_size;
-}page_info;
-
-typedef struct Block_Info
-{
-	struct Block_Info* _next_block;
-	char* _data;
-	bool used;
-}block_info;
-
 class MemoryPool
 {
+	friend class MemoryBlock;
 public:
+	static MemoryPool* instance();
+
 	int init_memory_poll(int size);
 
 	char* require(int size);
 
-	void release(int size,char* block);
+	void release(int size,char** block);
 
-protected:
+private:
+	void init_page();
+
+	char* alloc_memory(int size);
+
 private:
 	int _size;
+	int _unused;
 	char* _head;
 	char* _free;
-	page_info* _page;
+	std::vector<MemoryPage*> _page;
+	static MemoryPool* _instance;
 };
 
 class MemoryPage
 {
+public:
+	MemoryPage();
 
+	void set_block_size(int size);
+
+	int get_block_size();
+
+	char* require();
+
+	void release(char** block);
+
+private:
+	int _block_size;
+	MemoryBlock* _block;
 };
 
 class MemoryBlock
 {
+public:
+	MemoryBlock();
 
+	char* require(int size);
+
+	void release(char** block);
+
+private:
+	void init_block(int size);
+
+private:
+	bool _used;
+	char* _block;
+	MemoryBlock* _next;
 };
