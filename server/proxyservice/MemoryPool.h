@@ -35,7 +35,7 @@ public:
 
 	char* require(int size);
 
-	void release(int size,char** block);
+	void release(int size,char* block);
 
 private:
 	void init_page();
@@ -62,7 +62,7 @@ public:
 
 	char* require();
 
-	void release(char** block);
+	void release(char* block);
 
 private:
 	int _block_size;
@@ -76,7 +76,7 @@ public:
 
 	char* require(int size);
 
-	void release(char** block);
+	void release(char* block);
 
 private:
 	void init_block(int size);

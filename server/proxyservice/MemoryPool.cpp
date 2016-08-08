@@ -1,4 +1,5 @@
 #include "MemoryPool.h"
+#include "string.h"
 
 MemoryPool* MemoryPool::_instance = nullptr;
 
@@ -16,6 +17,7 @@ int MemoryPool::init_memory_poll(int size)
 	_size = size;
 	_unused = size;
 	_head = new char[size];
+	memset(_head,0,size);
 	_free = _head;
 	init_page();
 	return 0;
@@ -69,7 +71,7 @@ char* MemoryPool::require(int size)
 	return nullptr;
 }
 
-void MemoryPool::release(int size,char** block)
+void MemoryPool::release(int size,char* block)
 {
 	std::vector<MemoryPage*>::iterator it = _page.begin();
 	for (; it != _page.end(); ++it)
@@ -106,7 +108,7 @@ char* MemoryPage::require()
 	return _block->require(_block_size);
 }
 
-void MemoryPage::release(char** block)
+void MemoryPage::release(char* block)
 {
 	_block->release(block);
 }
@@ -131,7 +133,9 @@ char* MemoryBlock::require(int size)
 
 	if (true == _used)
 	{
-		return _next->require(size);
+		char* p = _next->require(size);
+		memset(p,0,size);
+		return p;
 	}
 
 	_used = true;
@@ -139,9 +143,9 @@ char* MemoryBlock::require(int size)
 	return  _block;
 }
 
-void MemoryBlock::release(char** block)
+void MemoryBlock::release(char* block)
 {
-	if (_block != *block)
+	if (_block != block)
 	{
 		_next->release(block);
 	}
