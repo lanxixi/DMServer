@@ -1,5 +1,6 @@
 #include "MemoryPool.h"
 #include "string.h"
+#include <ace/Log_Msg.h>
 
 MemoryPool* MemoryPool::_instance = nullptr;
 
@@ -17,9 +18,11 @@ int MemoryPool::init_memory_poll(int size)
 	_size = size;
 	_unused = size;
 	_head = new char[size];
-	memset(_head,0,size);
 	_free = _head;
+
+	memset(_head,0,size);
 	init_page();
+
 	return 0;
 }
 
@@ -49,9 +52,11 @@ char* MemoryPool::alloc_memory(int size)
 {
 	if (_unused < size)
 	{
+		ACE_DEBUG((LM_INFO,"memory pool have not enough free block\n"));
 		return nullptr;
 	}
 
+	_unused += size;
 	char *p = _free;
 	_free = _free + size;
 	return p;
@@ -71,6 +76,9 @@ char* MemoryPool::require(int size)
 	return nullptr;
 }
 
+/*
+   size²ÎÊý´óÐ¡±ØÐëÓëÉêÇë´óÐ¡±£³ÖÒ»ÖÂ
+*/
 void MemoryPool::release(int size,char* block)
 {
 	std::vector<MemoryPage*>::iterator it = _page.begin();
@@ -145,6 +153,11 @@ char* MemoryBlock::require(int size)
 	if (nullptr == _block)
 	{
 		make_block(size);
+
+		if (nullptr == _block)
+		{
+			return nullptr;
+		}
 	}
 
 	memset(_block,0,size);
