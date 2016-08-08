@@ -1,5 +1,4 @@
 #include "MemoryPool.h"
-#include <iostream>
 
 MemoryPool* MemoryPool::_instance = nullptr;
 
@@ -53,7 +52,6 @@ char* MemoryPool::alloc_memory(int size)
 
 	char *p = _free;
 	_free = _free + size;
-	std::cout<<"alloc:"<<size<<std::endl;
 	return p;
 }
 
