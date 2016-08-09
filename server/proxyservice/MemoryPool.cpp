@@ -3,13 +3,16 @@
 #include <ace/Log_Msg.h>
 
 MemoryPool* MemoryPool::_instance = nullptr;
+ACE_Thread_Mutex MemoryPool::_lock;
 
 MemoryPool* MemoryPool::instance()
 {
+	_lock.acquire();
 	if (nullptr == _instance)
 	{
 		_instance = new MemoryPool();
 	}
+	_lock.release();
 	return _instance;
 }
 
@@ -64,16 +67,19 @@ char* MemoryPool::alloc_memory(int size)
 
 char* MemoryPool::require(int size)
 {
+	_mutex_lock.acquire();
+	char* p = nullptr;
 	std::vector<MemoryPage*>::iterator it = _page.begin();
 	for (; it != _page.end(); ++it)
 	{
 		if ((*it)->get_block_size() > size)
-		{
-			return (*it)->require();
+		{	
+			p =(*it)->require();
+			break;
 		}
 	}
-
-	return nullptr;
+	_mutex_lock.release();
+	return p;
 }
 
 /*
@@ -81,6 +87,7 @@ char* MemoryPool::require(int size)
 */
 void MemoryPool::release(int size,char* block)
 {
+	_mutex_lock.acquire();
 	std::vector<MemoryPage*>::iterator it = _page.begin();
 	for (; it != _page.end(); ++it)
 	{
@@ -90,6 +97,7 @@ void MemoryPool::release(int size,char* block)
 			break;
 		}
 	}
+	_mutex_lock.release();
 }
 
 MemoryPage::MemoryPage()

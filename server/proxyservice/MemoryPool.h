@@ -18,6 +18,7 @@
 	|			   |		 |		    |		 |		    |
 	*--------------*		 *----------*		 *----------*
 */
+#include "ace/Thread_Mutex.h"
 #include <vector>
 
 class MemoryPage;
@@ -47,6 +48,8 @@ private:
 	char* _free;
 	std::vector<MemoryPage*> _page;
 	static MemoryPool* _instance;
+	static ACE_Thread_Mutex _lock;
+	ACE_Thread_Mutex _mutex_lock;
 };
 
 class MemoryPage
