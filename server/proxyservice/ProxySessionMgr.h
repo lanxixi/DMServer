@@ -8,14 +8,21 @@ class ProxySessionManager
 public:
 	int add_session(ACE_HANDLE fd, ProxySession* pSession);
 
-	/*int activate_session();
+	int activate_session(ACE_HANDLE fd, short uid);
 
-	ProxySession* find_session();
+	int activate_session(ProxySession* pSession, short uid);
 
-	int del_session();*/
+	ProxySession* find_session(ACE_HANDLE fd);
+
+	ACE_HANDLE find_fd(ProxySession* pSession);
+
+	int del_session(ACE_HANDLE fd);
+
+	int del_session(ProxySession* pSession);
 
 protected:
 private:
+	ACE_Thread_Mutex _mutex_lock;
 	std::map<short, ProxySession*> _sessions;
 };
 
