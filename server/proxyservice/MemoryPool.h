@@ -30,7 +30,7 @@ class MemoryPool
 public:
 	static MemoryPool* instance();
 
-	int init_memory_poll(int size);
+	int init_memory_pool(int size);
 
 	char* require(int size);
 

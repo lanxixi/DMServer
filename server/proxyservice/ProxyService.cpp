@@ -7,6 +7,7 @@
 #include "json/json.h"
 #include "ace/Dev_Poll_Reactor.h"
 #include "ReactorPool.h"
+#include "MemoryPool.h"
 
 DMService* GetService()
 {
@@ -56,7 +57,7 @@ int ProxyService::init()
 		_brk_info.broker_svrid = broker_info["broker_svrid"].asInt();
 
 		int memory_pool_size = Root["memory_pool"].asInt();
-		MemoryPool::instance()->init_memory_poll(memory_pool_size);
+		MemoryPool::instance()->init_memory_pool(memory_pool_size);
 	}
 	
 	cfg_file.close();

@@ -16,7 +16,7 @@ MemoryPool* MemoryPool::instance()
 	return _instance;
 }
 
-int MemoryPool::init_memory_poll(int size)
+int MemoryPool::init_memory_pool(int size)
 {
 	_size = size;
 	_unused = size;
