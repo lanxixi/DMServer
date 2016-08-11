@@ -18,8 +18,12 @@ os.system("scons -Q")
 os.chdir("../common")
 os.system("scons -Q")
 
-#print "cd ../server/getservice\n"
+#print "cd ../server/geteservice\n"
 #print "start build GateService...\n"
 os.chdir("../server/gateservice")
 os.system("scons -Q")
 
+#print "cd ../server/proxyservice\n"
+#print "start build ProxyService...\n"
+os.chdir("../server/proxyservice")
+os.system("scons -Q")
