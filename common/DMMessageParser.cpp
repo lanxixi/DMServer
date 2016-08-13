@@ -6,15 +6,15 @@ DMMessageHead DMMessageParser::parse(char * begin)
 	DMMessageHead msg_head;
 
 	DMGetBitData(begin,&msg_head.msg_id,0,16);
-	DMGetBitData(begin,&msg_head.user_id,16,24);
-	DMGetBitData(begin,&msg_head.msg_cmd,24,32);
-	DMGetBitData(begin,&msg_head.length,32,43);
-	DMGetBitData(begin,&msg_head.from,43,64);
-	DMGetBitData(begin,&msg_head.to,43,64);
-	DMGetBitData(begin,&msg_head.cluster_id,43,64);
-	DMGetBitData(begin,&msg_head.node_id,43,64);
-	DMGetBitData(begin,&msg_head.wait_time,43,64);
-	DMGetBitData(begin,&msg_head.flag,43,64);
+	DMGetBitData(begin,&msg_head.user_id,16,32);
+	DMGetBitData(begin,&msg_head.msg_cmd,32,48);
+	DMGetBitData(begin,&msg_head.length,48,64);
+	DMGetBitData(begin,&msg_head.from,64,72);
+	DMGetBitData(begin,&msg_head.to,72,80);
+	DMGetBitData(begin,&msg_head.cluster_id,80,88);
+	DMGetBitData(begin,&msg_head.node_id,88,96);
+	DMGetBitData(begin,&msg_head.wait_time,96,104);
+	DMGetBitData(begin,&msg_head.flag,104,112);
 
 	return msg_head;
 }
@@ -31,15 +31,15 @@ int DMMessageParser::parse(DMMessage& out, const AMQP::Message &in)
 	const char* msg = in.body();
 
 	DMGetBitData(msg,&msg_head.msg_id,0,16);
-	DMGetBitData(msg,&msg_head.user_id,16,24);
-	DMGetBitData(msg,&msg_head.msg_cmd,24,32);
-	DMGetBitData(msg,&msg_head.length,32,43);
-	DMGetBitData(msg,&msg_head.from,43,64);
-	DMGetBitData(msg,&msg_head.to,43,64);
-	DMGetBitData(msg,&msg_head.cluster_id,43,64);
-	DMGetBitData(msg,&msg_head.node_id,43,64);
-	DMGetBitData(msg,&msg_head.wait_time,43,64);
-	DMGetBitData(msg,&msg_head.flag,43,64);
+	DMGetBitData(msg,&msg_head.user_id,16,32);
+	DMGetBitData(msg,&msg_head.msg_cmd,32,48);
+	DMGetBitData(msg,&msg_head.length,48,64);
+	DMGetBitData(msg,&msg_head.from,64,72);
+	DMGetBitData(msg,&msg_head.to,72,80);
+	DMGetBitData(msg,&msg_head.cluster_id,80,88);
+	DMGetBitData(msg,&msg_head.node_id,88,96);
+	DMGetBitData(msg,&msg_head.wait_time,96,104);
+	DMGetBitData(msg,&msg_head.flag,104,112);
     
 	const char *body = msg + HEAD_CHAR_LEN;
 	out.body = new char[in.bodySize() - HEAD_CHAR_LEN];
