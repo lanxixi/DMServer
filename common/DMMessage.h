@@ -23,6 +23,42 @@
                     bit 7:  reserve
 ---------------------------------------------------------------------------------*/
 
+class DMMessageHead
+{
+public:
+	DMClientMessageHead():id(0),user_id(0),msg_cmd(0),length(0),reserved(0){};
+	short id;
+	short user_id;
+	short msg_cmd;
+	short length;
+	char from;
+    char to;
+    char cluster_id;
+    char node_id;
+    char wait_time;
+    char flag;
+    short reserved;
+};
+
+class DMMessage
+{
+   	DMMessage()
+	{
+		body = nullptr;
+	}
+	~DMMessage()
+	{
+		if (nullptr != body)
+		{
+			delete[] body;
+		}
+	}
+
+	DMMessageHead head;
+	char* body;
+}; 
+}
+
 class DMClientMessageHead
 {
 public:
