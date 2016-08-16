@@ -7,7 +7,7 @@ class DMServerMessageParser
 public:
 	enum DataSize
 	{
-		HEAD_BIT_LEN = 64,
+		HEAD_BIT_LEN = 128,
 		HEAD_CHAR_LEN = 8,
 		CHAR_BIT_LEN = 8
 	};

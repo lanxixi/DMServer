@@ -9,11 +9,11 @@ template <typename T>
 void DMServerMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e)
 {
 	const char *head_info = src;
-	long long bit_info = 0x0;
+	short bit_info = 0x0;
 
 	for (int i = 0;i < HEAD_CHAR_LEN; ++i)
 	{
-		long long char_info = 0x0;
+		short char_info = 0x0;
 		char_info = char_info | (*(head_info++) & 0xFF);
 		char_info = char_info << (CHAR_BIT_LEN * i);
 		bit_info = bit_info | char_info;
