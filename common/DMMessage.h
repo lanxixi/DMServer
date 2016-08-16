@@ -26,8 +26,8 @@
 class DMMessageHead
 {
 public:
-	DMMessageHead():id(0),user_id(0),msg_cmd(0),length(0),reserved(0){};
-	short id;
+	DMMessageHead():msg_id(0),user_id(0),msg_cmd(0),length(0),reserved(0){};
+	short msg_id;
 	short user_id;
 	short msg_cmd;
 	short length;

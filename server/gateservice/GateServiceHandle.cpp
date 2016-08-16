@@ -92,7 +92,8 @@ int GateServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 
 	//response app
 	DMMessage resp_msg;
-	//resp_msg.head.id = req_msg.head.id;
+	resp_msg.head.msg_id = req_msg.head.msg_id;
+    resp_msg.head.user_id = req_msg.head.user_id;
 	//resp_msg.head.svrid = req_msg.head.svrid;
 	//resp_msg.head.reserved = req_msg.head.reserved;
 	//resp_msg.head.type = req_msg.head.type;
