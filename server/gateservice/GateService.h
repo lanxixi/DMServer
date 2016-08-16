@@ -26,7 +26,7 @@ public:
 
     virtual int init() override;
     	
-	virtual void dispatch(DMServerMessage& message) override;
+	virtual void dispatch(DMMessage& message) override;
 
 	void receive(const AMQP::Message &message) override;
 

@@ -26,6 +26,6 @@ public:
 	virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 	
 private:
-	bool recv_client_data(DMClientMessage &msg);
-	void send_client_data(DMClientMessage &msg);
+	bool recv_client_data(DMMessage &msg);
+	void send_client_data(DMMessage &msg);
 };

@@ -9,7 +9,7 @@ class DMService
 {
 public:
 	virtual int init()=0;
-	virtual void dispatch(DMServerMessage& message) { _router->route(message); };
+	virtual void dispatch(DMMessage& message) { _router->route(message); };
 	virtual void receive(const AMQP::Message &message);
 	
 	virtual void stop(int reason) {};

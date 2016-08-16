@@ -16,9 +16,9 @@ public:
 	//在连接上接收accountid，返回一个proxyserver的host
 	virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 
-	bool recv_client_data(DMClientMessage &msg);
+	bool recv_client_data(DMMessage &msg);
 
-	bool trans_to_svr_msg(DMClientMessage &client_msg, DMServerMessage &server_msg);
+	bool trans_to_svr_msg(DMMessage &client_msg, DMMessage &server_msg);
 
 	//重写实现。需要绑定到不同的reactor上面
 	virtual int open(void *acceptor_or_connector = 0) override;

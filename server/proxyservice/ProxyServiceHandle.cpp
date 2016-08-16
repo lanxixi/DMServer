@@ -1,6 +1,5 @@
 #include "ProxyServiceHandle.h"
-#include "DMServerMessageParser.h"
-#include "DMClientMessageParser.h"
+#include "DMMessageParser.h"
 #include "DMBrokerProxy.h"
 #include "ProxyRouter.h"
 #include "ReactorPool.h"
@@ -16,20 +15,20 @@ void ProxyServiceHandle::handle(const AMQP::Message &message)
 int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 {
 	ACE_DEBUG((LM_INFO,"app data, route to server!\n"));
-	DMClientMessage client_msg;
+	DMMessage client_msg;
 
 	if (!recv_client_data(client_msg))
 	{
 		return -1;
 	}
 
-	switch (client_msg.head.type & CLIENT_MSG_MASK)
+	switch (client_msg.head.msg_cmd)
 	{
 	case CLIENT_LOGIN_MSG:
 		{
 			ProxySessionMgr::instance()->add_session(fd, new ProxySession(this));//fd×÷Îªsessionid
 				
-			DMServerMessage server_msg;
+			DMMessage server_msg;
 			if (!trans_to_svr_msg(client_msg, server_msg))
 			{
 				return -1;
@@ -58,7 +57,7 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 	return -1;
 }
 	
-bool ProxyServiceHandle::trans_to_svr_msg(DMClientMessage &client_msg, DMServerMessage &server_msg)
+bool ProxyServiceHandle::trans_to_svr_msg(DMMessage &client_msg, DMMessage &server_msg)
 {
 	/*server_msg.head.id = client_msg.head.id;
 	server_msg.head.from = PROXY_SERVER_MSG;
@@ -69,25 +68,25 @@ bool ProxyServiceHandle::trans_to_svr_msg(DMClientMessage &client_msg, DMServerM
 	return true;
 }
 
-bool ProxyServiceHandle::recv_client_data(DMClientMessage &msg)
+bool ProxyServiceHandle::recv_client_data(DMMessage &msg)
 {
-	char head[DMClientMessageParser::HEAD_CHAR_LEN] = {0};
-	peer().recv(head,DMClientMessageParser::HEAD_CHAR_LEN);
+	char head[DMMessageParser::HEAD_CHAR_LEN] = {0};
+	peer().recv(head,DMMessageParser::HEAD_CHAR_LEN);
 	
-	DMClientMessageParser parser;
-	DMClientMessageHead head_info;
+	DMMessageParser parser;
+	DMMessageHead head_info;
 	//parse head
-	head_info = parser.parseHead(head);
+	head_info = parser.parse(head);
 
-	if ( head_info.len <= 0 )
+	if ( head_info.length <= 0 )
 	{
 		return false;
 	}
 
 	//recive body
-	msg.body = new char[head_info.len];
-	memset(msg.body,0,head_info.len);
-	peer().recv(msg.body,head_info.len);
+	msg.body = new char[head_info.length];
+	memset(msg.body,0,head_info.length);
+	peer().recv(msg.body,head_info.length);
 
 	msg.head = head_info;
 

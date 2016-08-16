@@ -70,7 +70,7 @@ void GateService::receive(const AMQP::Message &message)
 	BrokerHandle.handle(message);
 }
 
-void GateService::dispatch(DMServerMessage& message)
+void GateService::dispatch(DMMessage& message)
 {
 //	throw std::exception("The method or operation is not implemented.");
 }

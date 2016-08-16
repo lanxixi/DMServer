@@ -1,8 +1,8 @@
 #include "DMRouter.h"
 #include "DMBrokerProxy.h"
-#include "DMServerMessageParser.h"
+#include "DMMessageParser.h"
 
-void DMRouter::route(DMServerMessage& message)
+void DMRouter::route(DMMessage& message)
 {
 
 }
