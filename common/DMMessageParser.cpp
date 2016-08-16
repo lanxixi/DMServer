@@ -100,24 +100,12 @@ void DMMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e
 
 int DMMessageParser::pack(DMMessage & mesg, char * buf)
 {
-	typedef struct HeadMsg
-	{
-		int id:16;
-		int svrid:8;
-		int reserved:8;
-		int type:11;
-		int len:21;
-	}HeadMsg;
+	DMMessageHead head;
 
-	HeadMsg head;
-//	head.id = mesg.head.id;
-//	head.svrid = mesg.head.svrid;
-//	head.reserved = mesg.head.reserved;
-//	head.type = mesg.head.type;
-//	head.len = mesg.head.len;
+    head = mesg.head;
 
-	memcpy(buf,&head,sizeof(HeadMsg));
-	memcpy(buf + sizeof(HeadMsg),mesg.body,head.len);
+	memcpy(buf,&head,sizeof(head));
+	memcpy(buf + sizeof(head),mesg.body,head.length);
 
 	return 0;
 }
