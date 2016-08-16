@@ -11,7 +11,7 @@ LIB = Split('ACE pthread libBroker jsoncpp protobuf amqpcpp DMMessage')
 FILELIST = Glob('*.cpp')
 FILELIST = FILELIST
 HEADFILEPATH = Split('../../3rd ../../common ../../message ../../3rd/amqpcpp')
-LIB_DIR = Split('../Thrid/lib ../Common ../LibMessage')
+LIB_DIR = Split('../../common ../../message')
 FLAGS = Split('-std=c++11 -Wall -g -D _DEBUG')
 
 #Program target

@@ -26,7 +26,7 @@
 class DMMessageHead
 {
 public:
-	DMClientMessageHead():id(0),user_id(0),msg_cmd(0),length(0),reserved(0){};
+	DMMessageHead():id(0),user_id(0),msg_cmd(0),length(0),reserved(0){};
 	short id;
 	short user_id;
 	short msg_cmd;
@@ -57,7 +57,6 @@ class DMMessage
 	DMMessageHead head;
 	char* body;
 }; 
-}
 
 class DMClientMessageHead
 {
