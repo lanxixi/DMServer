@@ -44,6 +44,7 @@ enum msg_flge    //公共flag标记
 	MSG_MASK      = 0xFF,
 };
 
+#pragma pack (1)
 class DMMessageHead
 {
 public:
@@ -78,6 +79,7 @@ public:
         return *this;
     }
 };
+#pragma pack ()
 
 class DMMessage
 {
