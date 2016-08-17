@@ -62,12 +62,13 @@ void DMMessageParser::DMGetBitData(char *src,T *dsc,int bit_s,int bit_e)
         { 
     		break;
         }   
+        
+        bit_info = 0x0;
 	}
 
     if (CHAR_BIT_LEN != (bit_e - bit_s))    //取16位
     {
-        bit_info = bit_info << CHAR_BIT_LEN;    //高8位
-        bit_info = bit_info | (*head_info & 0xFF);
+        bit_info = bit_info | ((*head_info & 0xFF) << CHAR_BIT_LEN);
     }
         
 	*dsc =  *dsc | bit_info;
@@ -87,12 +88,13 @@ void DMMessageParser::DMGetBitData(const char *src, T *dsc, int bit_s, int bit_e
         { 
     		break;
         }   
+                
+        bit_info = 0x0;
 	}
 
     if (CHAR_BIT_LEN != (bit_e - bit_s))
     {
-        bit_info = bit_info << CHAR_BIT_LEN;
-        bit_info = bit_info | (*head_info & 0xFF);
+        bit_info = bit_info | ((*head_info & 0xFF) << CHAR_BIT_LEN);
     }
         
 	*dsc =  *dsc | bit_info;

@@ -79,11 +79,12 @@ int GateServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 	//pb decode
 	PBClientMsg msg_pb;
 	std::string pb_data(req_msg.body,req_msg.head.length);
+    ACE_DEBUG((LM_INFO,"req_msg.body=%s,req_msg.head.length=%d!\n",pb_data.c_str(),req_msg.head.length));
 
-	if(!msg_pb.ParseFromString(pb_data))
+	if (!msg_pb.ParseFromString(pb_data))
 	{
 		ACE_DEBUG((LM_INFO,"ParseFromString error!\n"));
-		return false;
+		return -1;
 	}
 
 	//get proxy
@@ -129,7 +130,10 @@ bool GateServiceHandle::recv_client_data(DMMessage &msg)
 	{
 		return false;
 	}
-
+    ACE_DEBUG((LM_INFO,"head_info.msg_id=%d\n",head_info.msg_id));
+    ACE_DEBUG((LM_INFO,"head_info.user_id=%d\n",head_info.user_id));
+    ACE_DEBUG((LM_INFO,"head_info.msg_cmd=%d\n",head_info.msg_cmd));
+    ACE_DEBUG((LM_INFO,"head_info.length=%d\n",head_info.length));
 	//recive body
 	msg.body = new char[head_info.length];
 	memset(msg.body,0,head_info.length);
