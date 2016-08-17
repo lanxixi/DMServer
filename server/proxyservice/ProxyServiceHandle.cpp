@@ -14,7 +14,7 @@ void ProxyServiceHandle::handle(const AMQP::Message &message)
 
 int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 {
-	ACE_DEBUG((LM_INFO,"app data, route to server!\n"));
+	//ACE_DEBUG((LM_INFO,"app data, route to server!\n"));
 	DMMessage client_msg;
 
 	if (!recv_client_data(client_msg))
@@ -22,17 +22,14 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 		return -1;
 	}
 
-	switch (client_msg.head.msg_cmd)
+	switch (client_msg.head.flag & MSG_MASK)
 	{
 	case LOGIN_MSG:
 		{
 			ProxySessionMgr::instance()->add_session(fd, new ProxySession(this));//fd×÷Îªsessionid
 				
 			DMMessage server_msg;
-			if (!trans_to_svr_msg(client_msg, server_msg))
-			{
-				return -1;
-			}
+            ACE_DEBUG((LM_INFO,"RECIVE LOGIN_MSG!\n"));
 
 			break;
 		}
@@ -57,17 +54,6 @@ int ProxyServiceHandle::handle_input(ACE_HANDLE fd /*= ACE_INVALID_HANDLE*/)
 	return -1;
 }
 	
-bool ProxyServiceHandle::trans_to_svr_msg(DMMessage &client_msg, DMMessage &server_msg)
-{
-	/*server_msg.head.id = client_msg.head.id;
-	server_msg.head.from = PROXY_SERVER_MSG;
-	server_msg.head.to = client_msg.head.type & SERVER_MASK;
-	server_msg.head.type = client_msg.head.type;
-	server_msg.head.sessionid;*/
-	//server_msg.
-	return true;
-}
-
 bool ProxyServiceHandle::recv_client_data(DMMessage &msg)
 {
 	char head[DMMessageParser::HEAD_CHAR_LEN] = {0};
@@ -78,7 +64,8 @@ bool ProxyServiceHandle::recv_client_data(DMMessage &msg)
 	//parse head
 	head_info = parser.parse(head);
 
-	if ( head_info.length <= 0 )
+    //some message maybe have no message body
+	/*if ( head_info.length <= 0 )
 	{
 		return false;
 	}
@@ -86,7 +73,7 @@ bool ProxyServiceHandle::recv_client_data(DMMessage &msg)
 	//recive body
 	msg.body = new char[head_info.length];
 	memset(msg.body,0,head_info.length);
-	peer().recv(msg.body,head_info.length);
+	peer().recv(msg.body,head_info.length);*/
 
 	msg.head = head_info;
 
@@ -95,8 +82,7 @@ bool ProxyServiceHandle::recv_client_data(DMMessage &msg)
 
 int ProxyServiceHandle::open(void *acceptor_or_connector /*= 0*/)
 {
-	ACE_DEBUG((LM_INFO,"proxy register_handler = %d\n",get_handle()));
-
+	//ACE_DEBUG((LM_INFO,"proxy register_handler = %d\n",get_handle()));
 	ACE_Reactor *pReactor = Reactor_Pool::instance()->pull();
 	if ( -1 == get_handle() || nullptr == pReactor)
 	{

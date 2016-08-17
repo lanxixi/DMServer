@@ -1,7 +1,7 @@
 {
     "host_name": "GateServer",
     "host_ip": "127.0.0.1",
-    "host_port": 1234,
+    "host_port": 5555,
     
     "memory_pool": 4096,
     

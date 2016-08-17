@@ -41,7 +41,7 @@ enum msg_flge    //公共flag标记
 	NOTIFY_MSG    = 0x20,
 	MAINT_MSG     = 0x40,
 
-	MSG_MASK      = 0xFF,
+	MSG_MASK      = 0xFE,
 };
 
 #pragma pack (1)

@@ -18,8 +18,6 @@ public:
 
 	bool recv_client_data(DMMessage &msg);
 
-	bool trans_to_svr_msg(DMMessage &client_msg, DMMessage &server_msg);
-
 	//重写实现。需要绑定到不同的reactor上面
 	virtual int open(void *acceptor_or_connector = 0) override;
 };
